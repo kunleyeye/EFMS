@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Suite">
+  <test name="EFMS Automation Test Execution" preserve-order="true">
+    <classes>
+      <class name="main.pC"/>
+        <class name="main.authentication"/>
+        
+     <class name="main.Checkers"/>
+            <!--  <class name="main.Casemanagement"/>
+         <class name="main.listManagement"/>
+        
+   
+	    
+	  
+          <class name="main.home"/>
+	    <class name="main.dashboard"/>
+	    
+         <class name="main.manageRequests"/>
+         <class name="main.listManagement"/>
+         <class name="ou.businessUnit"/> 
+     <class name="main.closeApplication"/> 
+     -->
+    </classes>
+  </test> 
+</suite> 
