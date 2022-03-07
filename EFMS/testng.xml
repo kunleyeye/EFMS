@@ -4,8 +4,7 @@
   <test name="EFMS Automation Test Execution" preserve-order="true">
     <classes>
       <class name="main.pC"/>
-        <class name="main.authentication"/>
-        
+        <class name="main.authentication"/>     
      <class name="main.Checkers"/>
             <!--  <class name="main.Casemanagement"/>
          <class name="main.listManagement"/>
