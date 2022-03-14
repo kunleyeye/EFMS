@@ -3,11 +3,11 @@
 <suite name="Failed suite [Suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="EFMS Automation Test Execution(failed)">
     <classes>
-      <class name="main.Checkers">
+      <class name="main.ruleManagement">
         <methods>
-          <include name="ViewCases"/>
+          <include name="ViewRule"/>
         </methods>
-      </class> <!-- main.Checkers -->
+      </class> <!-- main.ruleManagement -->
     </classes>
   </test> <!-- EFMS Automation Test Execution(failed) -->
 </suite> <!-- Failed suite [Suite] -->

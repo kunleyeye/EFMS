@@ -116,8 +116,11 @@ public static ChromeDriver driver;
 		 			
 		 			}
 			
-				
-				
+				public static int randomnumber() {
+		 			   
+				int random_int = (int)Math.floor(Math.random()*(50-1+1)+1);
+				return random_int;
+				}
 				 /*
 				public static void browserSetup(String webDriverPath, String driverName, String URL){
 					//String browserPath = "C:/eclipse/dependencies/WebDrivers/";
@@ -152,6 +155,13 @@ public static ChromeDriver driver;
 					   });
 					 
 					return foundElement;
+					
+				}
+				
+				public static void wait(int duration) throws InterruptedException {
+					for (int k = 1; k<=duration; k++) {
+					Thread.sleep(1000);
+					}
 					
 				}
 				

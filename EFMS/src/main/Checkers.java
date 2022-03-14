@@ -1,7 +1,5 @@
 package main;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -17,27 +15,140 @@ public class Checkers {
     
 	
     
-    @Test
+   @Test
     public void ViewCases() throws Exception {
     	
     	pC.driver.get("https://efmsstudiofront.azurewebsites.net/cases");
 	    pC.waitForMyElementXpath("//div[@id='kt_content']/div/div/app-cases/div[2]/div/div[2]/ngx-datatable/div/datatable-body/datatable-selection/datatable-scroller/datatable-row-wrapper[1]/datatable-body-row/div[2]/datatable-body-cell/div/div/div/button");
 	    
-     String caseCustomerNameSelected_Value =  pC.getXpathtext(caseCustomerName);
+     String caseCustomerNameSelected_Value =  pC.getXpathtext(caseCustomerName).replaceAll("[^a-zA-Z]+", " ").trim();
     pC.clickbutton(viewCaseButton);
+    pC.wait(5);
+  //  pC.waitForMyElementsXpath(caseCustomerNameDisplayed);
     
       pC.driver.findElement(By.xpath("//div[@id='kt_content']/div/div/app-view-case/div[2]/div/div/div/div/ul/li[2]/a/span")).click();
+      pC.wait(5);
       pC.driver.findElement(By.xpath("//div[@id='kt_content']/div/div/app-view-case/div[2]/div/div/div/div/ul/li[3]/a/span")).click();
+      pC.wait(5);
       pC.driver.findElement(By.xpath("//div[@id='kt_content']/div/div/app-view-case/div[2]/div/div/div/div/ul/li[4]/a/span")).click();
+      pC.wait(5);
       pC.driver.findElement(By.xpath("//div[@id='kt_content']/div/div/app-view-case/div[2]/div/div/div/div/ul/li[5]/a/span")).click();
+      pC.wait(5);
       pC.driver.findElement(By.linkText("Summary")).click();
-      String caseCustomerNameDisplayed_Value =  pC.getXpathtext(caseCustomerNameDisplayed);
+      pC.wait(5);
+      String caseCustomerNameDisplayed_Value =  pC.getXpathtext(caseCustomerNameDisplayed).replaceAll("[^a-zA-Z]+", " ").trim();;
       
       
-    
+    System.out.println("Displayed-->"+ caseCustomerNameDisplayed_Value + " Expecting-->" + caseCustomerNameSelected_Value);
       Assert.assertEquals(caseCustomerNameDisplayed_Value, caseCustomerNameSelected_Value);
     }
     
+  
+    
+    @Test
+    public void reinstateCase() throws Exception {
+    	String statusMessage = "";
+    	
+    pC.driver.get("https://efmsstudiofront.azurewebsites.net/cases");
+    pC.waitForMyElementXpath("//div[@id='kt_content']/div/div/app-cases/div[2]/div/div[2]/ngx-datatable/div/datatable-body/datatable-selection/datatable-scroller/datatable-row-wrapper[1]/datatable-body-row/div[2]/datatable-body-cell/div/div/div/button");
+    
+    pC.driver.findElement(By.xpath("//*[@id=\"kt_content\"]/div/div/app-cases/div[2]/div/div[2]/ngx-datatable/div/datatable-body/datatable-selection/datatable-scroller/datatable-row-wrapper[1]/datatable-body-row/div[2]/datatable-body-cell[1]/div/div/button")).click();
+    pC.wait(7);
+    
+  //Closed as false positive
+    pC.driver.findElement(By.xpath("//*[@id=\"kt_content\"]/div/div/app-view-case/div[1]/div[3]/div/button[1]")).click();
+    pC.driver.findElement(By.id("closure-comment")).click();
+    pC.driver.findElement(By.id("closure-comment")).clear();
+    pC.driver.findElement(By.id("closure-comment")).sendKeys("Close Comment False Positive");
+    pC.driver.findElement(By.xpath("//div[@id='abp-modal-body']/form/div/div[3]/div/label[2]/span")).click();
+    pC.driver.findElement(By.xpath("//*[@id=\"abp-modal-footer\"]/abp-button/button")).click();
+   // pC.waitForMyElementXpath("//body[@id='kt_body']/abp-toast-container/div/abp-toast/div/div[2]/p");
+   // pC.driver.findElement(By.xpath("//body[@id='kt_body']/abp-toast-container/div/abp-toast/div/div[2]/p")).click();
+    
+    pC.wait(10); 
+    statusMessage =  pC.getXpathtext("//div[@id='kt_content']/div/div/app-view-case/div[2]/div/div/div[2]/div/div/div/div/div/div[4]/div/span[2]").trim();
+    System.out.println("Expecting-->'Closed' Actual-->"+statusMessage);
+    Assert.assertEquals(statusMessage, "Closed");
+    
+      //reinstate the closed case
+      statusMessage = "";
+     pC.driver.findElement(By.xpath("//*[@id=\"kt_content\"]/div/div/app-view-case/div[1]/div[3]/div/button[1]")).click();
+      pC.driver.findElement(By.id("comment")).click();
+      pC.driver.findElement(By.id("comment")).clear();
+      pC.driver.findElement(By.id("comment")).sendKeys("Reinstate Comment");
+      pC.driver.findElement(By.xpath("//*[@id=\"abp-modal-footer\"]/abp-button")).click();
+     // pC.waitForMyElementXpath("//body[@id='kt_body']/abp-toast-container/div/abp-toast/div/div[2]/p");
+     // pC.driver.findElement(By.xpath("//body[@id='kt_body']/abp-toast-container/div/abp-toast/div/div[2]/p")).click();
+      
+     
+    }
+    
+    @Test
+    public void closeCaseAsFalsePositive() throws Exception {
+    	String statusMessage = "";
+    	
+    pC.driver.get("https://efmsstudiofront.azurewebsites.net/cases");
+    pC.waitForMyElementXpath("//div[@id='kt_content']/div/div/app-cases/div[2]/div/div[2]/ngx-datatable/div/datatable-body/datatable-selection/datatable-scroller/datatable-row-wrapper[1]/datatable-body-row/div[2]/datatable-body-cell/div/div/div/button");
+    
+    pC.driver.findElement(By.xpath("//*[@id=\"kt_content\"]/div/div/app-cases/div[2]/div/div[2]/ngx-datatable/div/datatable-body/datatable-selection/datatable-scroller/datatable-row-wrapper[1]/datatable-body-row/div[2]/datatable-body-cell[1]/div/div/button")).click();
+    pC.wait(7);
+    
+  //Closed as false positive
+    pC.driver.findElement(By.xpath("//*[@id=\"kt_content\"]/div/div/app-view-case/div[1]/div[3]/div/button[1]")).click();
+    pC.driver.findElement(By.id("closure-comment")).click();
+    pC.driver.findElement(By.id("closure-comment")).clear();
+    pC.driver.findElement(By.id("closure-comment")).sendKeys("Close Comment False Positive");
+    pC.driver.findElement(By.xpath("//div[@id='abp-modal-body']/form/div/div[3]/div/label[2]/span")).click();
+    pC.driver.findElement(By.xpath("//*[@id=\"abp-modal-footer\"]/abp-button/button")).click();
+   // pC.waitForMyElementXpath("//body[@id='kt_body']/abp-toast-container/div/abp-toast/div/div[2]/p");
+   // pC.driver.findElement(By.xpath("//body[@id='kt_body']/abp-toast-container/div/abp-toast/div/div[2]/p")).click();
+    
+    pC.wait(10); 
+    statusMessage =  pC.getXpathtext("//div[@id='kt_content']/div/div/app-view-case/div[2]/div/div/div[2]/div/div/div/div/div/div[4]/div/span[2]").trim();
+    System.out.println("Expecting-->'Closed' Actual-->"+statusMessage);
+    Assert.assertEquals(statusMessage, "Closed");
+     
+    }
+    
+    @Test
+    public void closeCaseAsFraud() throws Exception {
+    	String statusMessage = "";
+    	
+    pC.driver.get("https://efmsstudiofront.azurewebsites.net/cases");
+    pC.waitForMyElementXpath("//div[@id='kt_content']/div/div/app-cases/div[2]/div/div[2]/ngx-datatable/div/datatable-body/datatable-selection/datatable-scroller/datatable-row-wrapper[1]/datatable-body-row/div[2]/datatable-body-cell/div/div/div/button");
+    
+    pC.driver.findElement(By.xpath("//*[@id=\"kt_content\"]/div/div/app-cases/div[2]/div/div[2]/ngx-datatable/div/datatable-body/datatable-selection/datatable-scroller/datatable-row-wrapper[1]/datatable-body-row/div[2]/datatable-body-cell[1]/div/div/button")).click();
+    pC.wait(7);
+      
+      
+      pC.wait(10);
+      statusMessage = pC.getXpathtext("//div[@id='kt_content']/div/div/app-view-case/div[2]/div/div/div[2]/div/div/div/div/div/div[4]/div/span[2]").trim();
+      System.out.println("Expecting-->'Pending' Actual-->"+statusMessage);
+      Assert.assertEquals(statusMessage, "Pending");
+   
+      
+      //closed as Fraud
+      pC.driver.findElement(By.xpath("//*[@id=\"kt_content\"]/div/div/app-view-case/div[1]/div[3]/div/button[1]")).click();
+      pC.driver.findElement(By.id("closure-comment")).click();
+      pC.driver.findElement(By.id("closure-comment")).clear();
+      pC.driver.findElement(By.id("closure-comment")).sendKeys("Close Comment - Fraud");
+      pC.driver.findElement(By.xpath("//div[@id='abp-modal-body']/form/div/div[3]/div/label[1]/span")).click();
+      pC.wait(5);
+      pC.driver.findElement(By.id("fraudType")).click();
+      new Select(pC.driver.findElement(By.id("fraudType"))).selectByVisibleText("Internal");
+      pC.driver.findElement(By.xpath("//div[@id='abp-modal-footer']/abp-button/button/i")).click();
+      //pC.waitForMyElementXpath("/body[@id='kt_body']/abp-toast-container/div/abp-toast/div/div[2]/p");
+      //pC.driver.findElement(By.xpath("//body[@id='kt_body']/abp-toast-container/div/abp-toast/div/div[2]/p")).click();
+    
+      pC.wait(10);
+      statusMessage = pC.getXpathtext("//div[@id='kt_content']/div/div/app-view-case/div[2]/div/div/div[2]/div/div/div/div/div/div[4]/div/span[2]").trim();
+      System.out.println("Expecting-->'Closed' Actual-->"+statusMessage);
+      Assert.assertEquals(statusMessage, "Closed");
+      String conlusionMessage = pC.getXpathtext("//div[@id='kt_content']/div/div/app-view-case/div[2]/div/div/div[2]/div/div/div/div/div/div[4]/div[2]/span[2]").trim();
+      System.out.println("Expecting-->'Fraud' Actual-->"+conlusionMessage);
+      Assert.assertEquals(conlusionMessage, "Fraud");
+      
+    }
     
 	//@Test
 	  public void NewTask_Case() throws Exception {
@@ -91,9 +202,9 @@ public class Checkers {
 	//MM/DD/YYYY
 	//03/04/2022
 		String todaydatearr[] = todaydate.split("/");
-		String todaymonth = todaydatearr[0];
+		//String todaymonth = todaydatearr[0];
 		String todayday = todaydatearr[1];
-		String todayyear = todaydatearr[2];
+		//String todayyear = todaydatearr[2];
 		String xpathdueday = "";
 		int k = 0;
 		int j = 0;
